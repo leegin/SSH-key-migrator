@@ -6,6 +6,7 @@ This is the script for creating multiple users with sudo privileges and add thei
 from subprocess import Popen,PIPE
 import subprocess
 import boto3
+import os
 
 #create the user in the instance.
 def add_user():
@@ -25,7 +26,7 @@ def add_user():
                         subprocess.call(["touch", "/home/"+user+"/.ssh/authorized_keys"])
                         subprocess.call(["chown", "-R", user+":"+user, "/home/"+user+"/.ssh"])
                         with open("/etc/sudoers","a") as file:
-                                file.write(user+ "\tALL=(ALL)\tNOPASSWD:ALL")  #Sudo privilege is given to the user.
+                                file.write(user+ "\tALL=(ALL)\tNOPASSWD:ALL\n")  #Sudo privilege is given to the user.
 
 #copy the public keys from the s3 bucket to the .ssh folder of the user.
 def copy_key():
