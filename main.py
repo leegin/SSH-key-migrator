@@ -11,7 +11,7 @@ import os
 #create the user in the instance.
 def add_user():
         f = open('/root/OCC').read()  #Reading the users from the file OCC in which I have stored the name of the users to be created.
-        g = f.split('\n')
+        g = f.splitlines()
         for user in g:
                 h = open('/etc/passwd').read()
                 members = []
@@ -31,7 +31,7 @@ def add_user():
 #copy the public keys from the s3 bucket to the .ssh folder of the user.
 def copy_key():
         fh = open('/root/OCC').read()
-        gh = fh.split('\n')
+        gh = fh.splitlines()
         for user in gh:
                 BUCKET_NAME = "user-keys"
                 KEY = user+".pub"
