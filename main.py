@@ -10,7 +10,7 @@ import os
 
 #create the user in the instance.
 def add_user():
-        f = open('/root/OCC').read()  #Reading the users from the file OCC in which I have stored the name of the users to be created.
+        f = open('/root/users').read()  #Reading the users from the file users in which I have stored the name of the users to be created.
         g = f.splitlines()
         for user in g:
                 h = open('/etc/passwd').read()
@@ -30,7 +30,7 @@ def add_user():
 
 #copy the public keys from the s3 bucket to the .ssh folder of the user.
 def copy_key():
-        fh = open('/root/OCC').read()
+        fh = open('/root/users').read()
         gh = fh.splitlines()
         for user in gh:
                 BUCKET_NAME = "user-keys"
@@ -38,11 +38,11 @@ def copy_key():
                 s3 = boto3.resource('s3')
                 s3.Bucket(BUCKET_NAME).download_file(KEY, '/home/'+user+'/.ssh/authorized_keys') #Copy the public keys from the s3 bucket to the home directory for  the users.
 
-#check if the file OCC is there in the root directory.
-exists = os.path.isfile('/root/OCC')
+#check if the file users is there in the root directory.
+exists = os.path.isfile('/root/users')
 if exists:
         add_user()
         copy_key()
 else:
-        f1 = open('/root/OCC','w')
-        print('''The file OCC which has the ssh users is not present in the instance. I have created the file "OCC" under "/root" directory for you. Please add the ssh user names in the file''')
+        f1 = open('/root/users','w')
+        print('''The file users which has the ssh users is not present in the instance. I have created the file "users" under "/root" directory for you. Please add the ssh user names in the file''')
